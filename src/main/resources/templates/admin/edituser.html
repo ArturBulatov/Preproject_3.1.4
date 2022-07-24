@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Edit User</h1>
+<form th:method="POST" th:action="@{/admin/edituser/{id}(id=${user.getId()})}" th:object="${user}">
+
+    <table>
+        <tr>
+            <td>firstname</td>
+            <td><input type="text" th:field="*{firstname}" id ="firstname" placeholder="Name"/></td>
+        </tr>
+        <tr>
+            <td>LastName</td>
+            <td><input type="text" th:field="*{lastName}" /></td>
+        </tr>
+        <tr>
+            <td>Age</td>
+            <td><input type="text" th:field="*{age}" /></td>
+        </tr>
+        <tr>
+            <td>username</td>
+            <td><input type="text" th:field="*{username}" /></td>
+        </tr>
+        <tr>
+            <td>password</td>
+            <td><input type="text" th:field="*{password}" /></td>
+        </tr>
+
+
+        <tr>
+            <td><input type="submit" value="Edit"/></td>
+        </tr>
+
+    </table>
+    <h4><a href="/">Главная</a></h4>
+    <h4><a href="/logout">Выйти</a></h4>
+</form>
+</body>
+</html>

@@ -10,12 +10,8 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 @Controller
 @RequestMapping("/admin")
 public class AdminCRUDController {
-    private final UserService userService;
-
     @Autowired
-    public AdminCRUDController(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
 
     @GetMapping("/adduser")
     public String addUser(@ModelAttribute("user") User user) {

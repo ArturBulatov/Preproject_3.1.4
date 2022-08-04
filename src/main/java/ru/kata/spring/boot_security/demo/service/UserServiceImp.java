@@ -11,9 +11,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Transactional
 @Service
@@ -29,8 +27,8 @@ public class UserServiceImp implements UserService {
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(email);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
@@ -46,12 +44,10 @@ public class UserServiceImp implements UserService {
     }
 
     public boolean saveUser(User user) {
-        User userFromDB = userRepository.findByUsername(user.getUsername());
-
+        User userFromDB = userRepository.findByUsername(user.getEmail());
         if (userFromDB != null) {
             return false;
         }
-        user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return true;
@@ -61,15 +57,30 @@ public class UserServiceImp implements UserService {
         User user_updated = userRepository.getById(id);
         user_updated.setFirstname(user.getFirstname());
         user_updated.setLastName(user.getLastName());
-        user_updated.setUsername(user.getUsername());
-        user_updated.setPassword(user.getPassword());
+        user_updated.setEmail(user.getEmail());
+        if (!user.getPassword().isEmpty()){
+            user_updated.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        }
         user_updated.setAge(user.getAge());
+        user_updated.setRoles(user.getRoles());
+
     }
 
     public void delete(User user) {
         userRepository.delete(user);
     }
 
+    public Set<Role> getRolesByIdArr(Long[] idList) {
+        Set<Role> result = new HashSet<>();
+        for (Long id : idList) {
+            result.add(roleRepository.findById(id).get());
+        }
+        return result;
+    }
+
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
+    }
 }
 
 

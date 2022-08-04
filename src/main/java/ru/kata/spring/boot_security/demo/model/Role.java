@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Set;
 @Data
@@ -38,6 +40,12 @@ public class Role implements GrantedAuthority {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    @Override
+    public String toString() {
+
+        return name;
     }
 }
 

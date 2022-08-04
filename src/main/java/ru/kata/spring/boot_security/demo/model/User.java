@@ -24,15 +24,14 @@ public class User implements UserDetails {
     private String lastName;
 
     @Column
-    private int age;
+    private Integer age;
 
-    @Column(name="user_name")
-    private String username;
+    @Column(name="email")
+    private String email;
 
     @Column
     private String password;
 
-    // Думал JoinTable нужен для кастомизации связывающей таблицы
     @JoinTable(name = "user_role")
     @ManyToMany
     private Set<Role> roles;
@@ -42,17 +41,22 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return age == user.age && Objects.equals(id, user.id) && Objects.equals(firstname, user.firstname) && Objects.equals(lastName, user.lastName) && Objects.equals(username, user.username) && Objects.equals(password, user.password);
+        return age == user.age && Objects.equals(id, user.id) && Objects.equals(firstname, user.firstname) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstname, lastName, age, username, password);
+        return Objects.hash(id, firstname, lastName, age, email, password,roles);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     @Override
@@ -64,6 +68,7 @@ public class User implements UserDetails {
     public boolean isAccountNonLocked() {
         return true;
     }
+
 
     @Override
     public boolean isCredentialsNonExpired() {

@@ -12,14 +12,11 @@ public interface UserService extends UserDetailsService {
 
     public List<User> allUsers();
 
-    public boolean saveUser(User user) ;
+    public void saveUser(User user) ;
 
-    public void update(Long id, User user) ;
 
-    public void delete(User user);
+    void deleteById(Long id);
 
-    public Set<Role> getRolesByIdArr(Long[] idList);
-
-    public List<Role> getAllRoles();
+    public User getPrincipalUser();
 
 }

@@ -3,16 +3,16 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.kata.spring.boot_security.demo.model.User;
-
+@CrossOrigin
 @Controller
 public class UserController {
 
-    @GetMapping("/userPage")
-    public  String userPage(Model model, @AuthenticationPrincipal User user) {
-        model.addAttribute("user", user);
-        return "userPage";
+    @GetMapping("/user")
+    public  String userPage() {
+        return "user";
     }
 
 }

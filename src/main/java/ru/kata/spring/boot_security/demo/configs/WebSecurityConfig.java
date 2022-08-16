@@ -21,12 +21,23 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 //@EnableWebMvcSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+
+//     ------- Убрать после окончания тестирования
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//                .csrf().disable()
+//                .authorizeRequests()
+//                .anyRequest().permitAll();
+//    }
     @Autowired
     private UserService userService;
 
+
     @Bean
     GrantedAuthorityDefaults grantedAuthorityDefaults() {
-        return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
+        // Remove the ROLE_ prefix
+        return new GrantedAuthorityDefaults("");
     }
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -40,9 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 //Доступ только для пользователей с ролью Администратор
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user").hasRole("ADMIN")
-                .antMatchers("/userPage").hasRole("USER")
+                .antMatchers("/admin").hasRole("ADMIN")
                 //Доступ разрешен всем пользователей
                 .antMatchers("/").permitAll()
                 //Все остальные страницы требуют аутентификации
@@ -50,13 +59,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 //Настройка для входа в систему
                 .formLogin()
-//                .loginPage("/login")
                 .successHandler(new SuccessUserHandler())
                 .permitAll()
                 .and()
                 .logout()
                 .permitAll()
-                .logoutSuccessUrl("/");
+                .logoutSuccessUrl("/login");
 
     }
 
@@ -64,5 +72,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
     }
-
 }

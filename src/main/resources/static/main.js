@@ -153,7 +153,8 @@ addUserForm.addEventListener('submit', (e)=> {
                 .call(rolesValue.options, option => option.selected)
                 .map(option => option.text))
         })
-    }).then(res=> res.json())
+    })
+        .then(res=> res.json())
         .then(() => {getAllUsers()})
         .then(() => {getCurrentUser()})
     //  ----    cleaning forms after submitting new user ----

@@ -2,12 +2,10 @@ package ru.kata.spring.boot_security.demo.model;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
-
 import javax.persistence.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Set;
+
 @Data
 @Entity
 @Table(name = "roles")
@@ -20,10 +18,12 @@ public class Role implements GrantedAuthority {
     private Set<User> users;
 
     public Role(){}
+
     public Role(Long id, String name) {
         this.id = id;
         this.name = name;
     }
+
     @Override
     public String getAuthority() {
         return getName();
